@@ -61,6 +61,7 @@ export default {
     ...mapActions(["addBook"]),
     async submit() {
       this.loading = true;
+      this.book.added = new Date();
       await this.addBook(this.book);
 
       this.book = getInitialFormObject();

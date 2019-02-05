@@ -10,6 +10,14 @@
     <div class="content">
       <p class="book-title">{{book.title}}</p>
       <p class="author">{{book.author}}</p>
+      <p class="progress">
+        <v-progress-linear color="#00e676" :value="percentDone"></v-progress-linear>
+      </p>
+      <p style="color:#00e676">
+        <strong>{{book.pagesDone}}</strong>
+        /
+        <strong>{{book.pages }}</strong>
+      </p>
     </div>
     <div class="extra">
       <v-btn color="primary">More</v-btn>
@@ -19,7 +27,12 @@
 
 <script>
 export default {
-  props: ["book"]
+  props: ["book"],
+  computed: {
+    percentDone() {
+      return (this.book.pagesDone / this.book.pages) * 100;
+    }
+  }
 };
 </script>
 
@@ -47,7 +60,7 @@ export default {
 .book-cover {
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.363);
   height: auto;
-  height: 450px;
+  height: 500px;
   display: flex;
   margin: 10px;
   flex-direction: column;
@@ -90,6 +103,14 @@ img {
   justify-content: center;
 }
 
+p {
+  text-align: center;
+}
+
+.progress {
+  width: 90%;
+  margin: 0 auto;
+}
 @media (max-width: 600px) {
   .book-cover {
     width: 350px;
