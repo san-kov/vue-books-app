@@ -44,12 +44,15 @@
 
 <script>
 import { mapActions } from "vuex";
-
+import uuid from "uuid";
 const getInitialFormObject = () => ({
   title: "",
   author: "",
   pages: 0,
-  cover: ""
+  cover: "",
+  done: false,
+  pagesDone: 0,
+  completed: 0
 });
 export default {
   data: () => ({
@@ -62,6 +65,7 @@ export default {
     async submit() {
       this.loading = true;
       this.book.added = new Date();
+      this.book.book_id = uuid();
       await this.addBook(this.book);
 
       this.book = getInitialFormObject();
