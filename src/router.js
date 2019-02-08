@@ -10,8 +10,7 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: Home
+      redirect: 'books'
     },
     {
       path: '/books',

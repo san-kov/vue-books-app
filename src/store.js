@@ -7,7 +7,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     books: [],
-    loading: false
+    loading: false,
+    addLoader: false
   },
   mutations: {
     SET_BOOKS(store, books) {
@@ -26,6 +27,17 @@ export default new Vuex.Store({
     },
     SET_LOADING(store, loading) {
       store.loading = loading
+    },
+    ADD_PAGES(store, { id, pages }) {
+      const book = store.books.find(book => book.book_id === id)
+      if (book.pagesDone + pages < book.pages) {
+        book.pagesDone += pages
+      } else {
+        book.done = true
+      }
+    },
+    SET_ADD_LOADER(store, loading) {
+      store.addLoader = loading
     }
   },
   actions: {
@@ -52,6 +64,29 @@ export default new Vuex.Store({
               commit('SET_LOADING', false)
             })
           )
+        })
+    },
+    addPages({ commit }, { id, pages }) {
+      commit('SET_ADD_LOADER', true)
+      db.collection('books')
+        .where('book_id', '==', id)
+        .get()
+        .then(snapshot => {
+          snapshot.docs.forEach(doc => {
+            const book = doc.data()
+
+            if (book.pagesDone + pages < book.pages) {
+              doc.ref.update({ pagesDone: book.pagesDone + pages }).then(() => {
+                commit('ADD_PAGES', { id, pages })
+                commit('SET_ADD_LOADER', false)
+              })
+            } else {
+              doc.ref.update({ done: true }).then(() => {
+                commit('FINISH_BOOK', id)
+                commit('SET_ADD_LOADER', false)
+              })
+            }
+          })
         })
     }
   }

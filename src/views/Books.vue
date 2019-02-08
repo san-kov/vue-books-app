@@ -66,43 +66,12 @@ export default {
 
 @media (max-width: 700px) {
   .books {
-    grid-template-columns: repeat(3, 200px);
+    grid-template-columns: repeat(2, 1fr);
     grid-auto-flow: row;
   }
-}
 
-@media (max-width: 620px) {
-  .books {
-    transform: scale(0.85);
-  }
-}
-
-@media (max-width: 517px) {
-  .books {
-    margin-top: 3px;
-    transform: scale(0.8);
-  }
-}
-
-@media (max-width: 485px) {
-  .books {
-    margin-top: 3px;
-    transform: scale(0.7);
-  }
-}
-@media (max-width: 425px) {
-  .books {
-    transform: scale(0.6);
-  }
-}
-
-@media (max-width: 425px) {
-  .books {
-    transform: scale(1);
-    grid-template-columns: repeat(2, 100px);
-    grid-template-rows: 100px;
-    grid-auto-flow: row;
-    grid-auto-rows: 100px;
+  .image {
+    height: 0;
   }
 }
 </style>

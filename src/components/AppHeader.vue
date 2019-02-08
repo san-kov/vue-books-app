@@ -1,9 +1,9 @@
 <template>
   <v-toolbar dark flat color="blue">
-    <v-toolbar-title class="white--text font-weight-light">
+    <v-toolbar-title class="white--text logo font-weight-light">
       <v-icon left color="yellow">bookmark</v-icon>BookList
     </v-toolbar-title>
-    <v-spacer></v-spacer>
+    <v-spacer class="spacer"></v-spacer>
     <v-toolbar-items>
       <v-btn to="/books" flat>
         <v-icon left>book</v-icon>
@@ -27,4 +27,13 @@ export default {
 </script>
 
 <style>
+@media (max-width: 425px) {
+  .logo {
+    display: none;
+  }
+
+  .spacer {
+    display: none;
+  }
+}
 </style>

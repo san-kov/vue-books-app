@@ -39,7 +39,16 @@
       </div>
       <div class="controls">
         <v-tooltip v-if="!book.done" bottom>
-          <v-btn slot="activator" :loading="loading" large color="pink" flat icon dark>
+          <v-btn
+            slot="activator"
+            :loading="loading"
+            :disabled="addLoader"
+            small
+            color="pink"
+            flat
+            icon
+            dark
+          >
             <v-icon @click="toggleBook(book.book_id)" dark>check_circle</v-icon>
           </v-btn>
           <span>Check as done</span>
@@ -50,6 +59,25 @@
           </v-btn>
           <span>Discard</span>
         </v-tooltip>
+        <div v-if="!book.done" class="add-pages">
+          <input type="number" v-model="pagesAdd" placeholder="count">
+          <v-tooltip bottom>
+            <v-btn
+              slot="activator"
+              large
+              color="pink"
+              :disabled="loading"
+              :loading="addLoader"
+              small
+              flat
+              icon
+              dark
+            >
+              <v-icon @click="addPages({id: book.book_id, pages: +pagesAdd})" dark>add</v-icon>
+            </v-btn>
+            <span>Add Pages</span>
+          </v-tooltip>
+        </div>
       </div>
     </v-card>
   </v-dialog>
@@ -62,18 +90,19 @@ import moment from "moment";
 export default {
   props: ["book"],
   computed: {
-    ...mapState(["loading"]),
+    ...mapState(["loading", "addLoader"]),
     percentDone() {
       return (this.book.pagesDone / this.book.pages) * 100;
     }
   },
   data() {
     return {
-      dialog: false
+      dialog: false,
+      pagesAdd: 10
     };
   },
   methods: {
-    ...mapActions(["finishBook"]),
+    ...mapActions(["finishBook", "addPages"]),
     formatDate(date) {
       return moment(date).format("DD/MM/YYYY");
     },
@@ -117,14 +146,12 @@ export default {
 
 .book-cover {
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.363);
-  display: block;
-  width: 100%;
-  height: 100%;
   margin: 10px;
   /* flex-direction: column; */
   position: relative;
   cursor: pointer;
   transition: all 0.1s ease;
+  overflow: hidden;
 }
 
 .book-cover:hover {
@@ -174,5 +201,17 @@ p {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.add-pages input {
+  width: 70px;
+  padding: 2px;
+  border: 1px solid rgb(219, 219, 219);
+}
+
+@media (max-width: 700px) {
+  .image {
+    height: auto;
+  }
 }
 </style>
