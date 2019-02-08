@@ -211,7 +211,7 @@ p {
 
 @media (max-width: 700px) {
   .image {
-    height: auto;
+    height: 200px;
   }
 }
 </style>
